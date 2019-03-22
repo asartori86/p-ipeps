@@ -35,4 +35,7 @@ notifications:
 before_install:
 - eval $COMPILER
 
-script: $CXX --version
+script: 
+- $CXX --version
+- meson --version
+- ninja --version
