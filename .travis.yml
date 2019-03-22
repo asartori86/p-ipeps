@@ -11,6 +11,7 @@ matrix:
         - ubuntu-toolchain-r-test
         packages:
         - g++-8
+	- meson
     env:
     - COMPILER="CXX=g++-8"
 
@@ -24,6 +25,7 @@ matrix:
           key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
         packages:
         - clang-6.0
+	- meson
     env:
     - COMPILER="CXX=clang++-6.0"
       
