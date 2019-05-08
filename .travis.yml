@@ -61,7 +61,7 @@ before_install:
 - sed -i "s/^BLAS_LAPACK_INCLUDEFLAGS=/#BLAS_LAPACK_INCLUDEFLAGS=/g" options.mk
 - sed -i "s/^#PLATFORM=$PLATFORM/PLATFORM=$PLATFORM/" options.mk
 - export flag_line_no=`grep -n PLATFORM=lapack options.mk | cut -f1 -d:`
-- sed -i "$(( flag_line_no + 1 )) s/^#BLAS_LAPACK_LIBFLAGS=/BLAS_LAPACK_LIBFLAGS=/" options.mk
+- sed -i "$(( flag_line_no + 1 )) s/^#BLAS_LAPACK_LIBFLAGS=/BLAS_LAPACK_LIBFLAGS= -L$CONDA_PREFIX /" options.mk
 - sed -i "s/ITENSOR_MAKE_DYLIB=0/ITENSOR_MAKE_DYLIB=1/" options.mk
 - make -j 2
 - export LD_LIBRARY_PATH=`pwd`/lib:$LD_LIBRARY_PATH
