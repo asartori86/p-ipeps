@@ -45,7 +45,7 @@ before_install:
 - conda create --yes -n pi-peps
 - source activate pi-peps
 - conda install meson
-- conda install -c conda-forge arpack
+- conda install -c conda-forge arpack lapack blas
 - conda install mkl mkl-include
 - export CPATH=$CONDA_PREFIX/include:$CPATH
 - export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
