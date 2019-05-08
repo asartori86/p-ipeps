@@ -43,7 +43,7 @@ before_install:
 - conda config --set always_yes yes --set changeps1 no
 - conda update -q conda
 - conda create --yes -n pi-peps
-- conda activate pi-peps
+- source activate pi-peps
 - conda install meson
 - conda install -c conda-forge arpack
 - conda install mkl mkl-include
