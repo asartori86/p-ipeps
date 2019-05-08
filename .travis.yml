@@ -11,14 +11,11 @@ matrix:
         - ubuntu-toolchain-r-test
         packages:
         - g++-8
-        - liblapack-dev
-        - liblapacke-dev
-        - libarpack2-dev
-        - libblas-dev
         - numdiff
     env:
     - COMPILER="CXX=g++-8"
     - PLATFORM="lapack"
+    - WITH_MKL="false"
 
   - os: linux
     addons:
@@ -30,14 +27,11 @@ matrix:
           key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
         packages:
         - clang-6.0
-        - liblapack-dev
-        - liblapacke-dev
-        - libarpack2-dev
-        - libblas-dev
         - numdiff
     env:
     - COMPILER="CXX=clang++-6.0"
     - PLATFORM="lapack"
+    - WITH_MKL="true"
       
 notifications:
   email: false
@@ -48,7 +42,13 @@ before_install:
 - export PATH="$PWD/_miniconda/bin:$PATH"
 - conda config --set always_yes yes --set changeps1 no
 - conda update -q conda
-- conda install meson mkl
+- conda create --yes -n pi-peps
+- conda activate pi-peps
+- conda install meson
+- conda install -c conda-forge arpack
+- conda install mkl mkl-include
+- export CPATH=$CONDA_PREFIX/include:$CPATH
+- export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
 - export PEPS=$PWD
 - cd ..
 - export SRC=$PWD
@@ -68,7 +68,7 @@ before_install:
 - cd unittest && make
 - cd $PEPS
 script: 
-- CXX=$CXX meson -Ditensor-dir=$SRC/deps/itensor -Dopenmp=false -Dmkl=false -Darpack=false -Dbuildtype=debug -Denable-tests=true build && cd build && ninja -j1
+- CXX=$CXX meson -Ditensor-dir=$SRC/deps/itensor -Dopenmp=false -Dmkl=false -Darpack=false -Dbuildtype=debug -Denable-tests=true -Dlapack-dir=$CONDA_PREFIX build && cd build && ninja -j1
 - ldd libpi-peps.so
 - meson test --suite unit-tests -v
 - meson configure -Darpack=true
